@@ -1,7 +1,8 @@
 import os
-import json
 from dotenv import load_dotenv
 import google.generativeai as genai
+
+from app.services.llm_formatting import parse_llm_json
 
 load_dotenv()
 
@@ -17,22 +18,19 @@ def generate_quiz(transcript):
     prompt = f"""
     Generate 10 multiple choice questions.
 
-    Return ONLY valid JSON.
+    Return only valid JSON.
 
     Format:
 
     [
       {{
-        "question":"...",
-        "options":[
-          "A",
-          "B",
-          "C",
-          "D"
-        ],
-        "answer":"..."
+        "question": "...",
+        "options": ["A", "B", "C", "D"],
+        "answer": "..."
       }}
     ]
+
+    Do not wrap the response in markdown fences.
 
     Transcript:
     {transcript}
@@ -40,4 +38,4 @@ def generate_quiz(transcript):
 
     response = model.generate_content(prompt)
 
-    return response.text
+    return parse_llm_json(response.text, lambda: [])

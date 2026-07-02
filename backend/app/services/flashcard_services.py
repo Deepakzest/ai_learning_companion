@@ -1,7 +1,8 @@
-import json
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
+
+from app.services.llm_formatting import parse_llm_json
 
 load_dotenv()
 genai.configure(
@@ -10,16 +11,14 @@ genai.configure(
 model=genai.GenerativeModel("gemini-2.5-flash")
 
 def generate_flashcards(transcript):
-    prompt =f""" Generate 10 flashcard.
-    return only valid JSON.
-    Format:
-    [
-    {
-        {
-            "question":" ",
-            "answer":" "
-        }
-    }]
-    Transcript:{transcript}"""
+    prompt = f"""Generate 10 study flashcards from the transcript.
+Return only valid JSON.
+Format:
+[
+  {{"question": "...", "answer": "..."}}
+]
+Do not wrap the response in markdown fences.
+Transcript:
+{transcript}"""
     response=model.generate_content(prompt)
-    return response.text
+    return parse_llm_json(response.text, lambda: [])
