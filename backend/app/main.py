@@ -29,10 +29,13 @@ def home():
 
 ''' "/" this refers to local host 127.0.0.1:8000/video-id'''
 @app.post("/video-id")
-def get_video_id(data:VideoRequest):
-    url=extract_video_id(data.video_url)
-    return extract_video_id(url)
-
+def get_video_id(data: VideoRequest):
+    print("Received URL:", data.video_url)
+    video_id = extract_video_id(data.video_url)
+    print("Extracted video ID:", video_id)
+    return {
+        "video_id": video_id
+    }
 @app.post("/transcript")
 def transcript(data:VideoRequest):
     video_id=extract_video_id(data.video_url)
