@@ -1,6 +1,8 @@
 # AI Learning Companion
 
-An intelligent learning platform that transforms educational content into interactive study materials using AI. Generate flashcards, quizzes, and summaries from YouTube videos with advanced LLM integration.
+AI Learning Companion is a FastAPI-based backend application that transforms  YouTube videos into interactive learning resources. By providing a YouTube video URL, users can automatically extract transcripts, generate concise summaries, create flashcards, and produce quizzes for effective learning.
+The project encourages active learning by converting long educational videos into structured study materials.
+
 
 ## Features
 
@@ -98,6 +100,8 @@ ai_learning_companion/
    The API will be available at `http://localhost:8000`
 
 2. API Documentation: `http://localhost:8000/docs` (Swagger UI)
+<img width="1096" height="528" alt="image" src="https://github.com/user-attachments/assets/2637d979-afa4-4f5e-bd99-450addb2910a" />
+
 
 ### Start the Frontend Development Server
 
@@ -106,6 +110,15 @@ ai_learning_companion/
    npm run dev
    ```
    The application will be available at `http://localhost:5173` (or as indicated by Vite)
+
+<img width="1437" height="659" alt="image" src="https://github.com/user-attachments/assets/8f4f43a9-abaf-487b-8925-3f5953761525" />
+<img width="414" height="677" alt="image" src="https://github.com/user-attachments/assets/9cdd0980-1522-4902-9f30-4bb517398c6e" />
+<img width="852" height="903" alt="image" src="https://github.com/user-attachments/assets/11757ef1-4c3e-4a8b-8ea2-733aabd2558f" />
+<img width="817" height="814" alt="image" src="https://github.com/user-attachments/assets/7bc09cf8-9497-4d54-be4d-8632136cfe5c" />
+
+
+
+
 
 ## API Endpoints
 
@@ -132,7 +145,7 @@ ai_learning_companion/
 ### Backend
 - **FastAPI** - Modern web framework for building APIs
 - **Python** - Backend programming language
-- **LLM Integration** - Advanced language model for content generation
+- **LLM Integration** - Advanced language model for content generation(google gemini model-free)
 
 ### Frontend
 - **React** - UI library
@@ -156,14 +169,6 @@ ai_learning_companion/
 - Key points extraction
 - Quick reference format
 
-## Development Workflow
-
-1. Create a feature branch for new features
-2. Make changes to backend or frontend as needed
-3. Test the changes locally
-4. Commit and push changes
-5. Create a pull request for review
-
 ## Output Format
 
 The backend ensures all LLM outputs are normalized into structured JSON before sending to the frontend:
@@ -183,22 +188,4 @@ The backend ensures all LLM outputs are normalized into structured JSON before s
 - Clear Vite cache: `rm -rf node_modules/.vite`
 - Ensure backend is running before making API calls
 
-## Contributing
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature`
-3. Commit changes: `git commit -am 'Add feature'`
-4. Push to branch: `git push origin feature/your-feature`
-5. Create a Pull Request
-
-## License
-
-[Add your license information here]
-
-## Contact & Support
-
-For issues, questions, or suggestions, please open an issue in the repository or contact the development team.
-
----
-
-**Last Updated**: July 2, 2026
