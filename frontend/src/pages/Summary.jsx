@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { fetchSummary } from "../services/api";
+import { fetchSummary,downloadExamNotesPDF } from "../services/api";
 
 export default function Summary() {
   const [videoUrl, setVideoUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [summary, setSummary] = useState(null);
-
+  const [pdfLoading, setPdfLoading] = useState(false);
   async function handleGenerate() {
     setLoading(true);
     try {
@@ -17,6 +17,23 @@ export default function Summary() {
       setLoading(false);
     }
   }
+  async function handleDownloadPDF() {
+  if (!videoUrl.trim()) {
+    alert("Please enter a YouTube URL first.");
+    return;
+  }
+
+  setPdfLoading(true);
+
+  try {
+    await downloadExamNotesPDF(videoUrl);
+  } catch (err) {
+    console.error(err);
+    alert("Could not generate the PDF. Is the backend running?");
+  } finally {
+    setPdfLoading(false);
+  }
+}
 
   return (
     <div className="study-page">
@@ -36,10 +53,22 @@ export default function Summary() {
       />
 
       <div className="study-actions">
-        <button onClick={handleGenerate} disabled={loading} className="study-button">
-          {loading ? "Working..." : "Generate Summary"}
-        </button>
-      </div>
+  <button
+    onClick={handleGenerate}
+    disabled={loading}
+    className="study-button"
+  >
+    {loading ? "Working..." : "Generate Summary"}
+  </button>
+
+  <button
+    onClick={handleDownloadPDF}
+    disabled={pdfLoading}
+    className="study-button"
+  >
+    {pdfLoading ? "Creating PDF..." : "📄 Generate Exam Notes PDF"}
+  </button>
+</div>
       </section>
 
       <section className="results-panel">

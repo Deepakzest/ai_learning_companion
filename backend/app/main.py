@@ -10,6 +10,12 @@ from app.services.transcript_services import get_transcript
 from app.services.summary_services import generate_summary
 from app.services.flashcard_services import generate_flashcards
 from app.services.quiz_services import generate_quiz
+from app.services.examnotes_services import generate_exam_notes
+import os
+import tempfile
+
+from fastapi.responses import FileResponse
+from app.services.pdf_service import generate_exam_notes_pdf
 app = FastAPI()
 from fastapi.middleware.cors import CORSMiddleware #connects backend and fronted//
 
@@ -66,3 +72,39 @@ def quiz(data:VideoRequest):
     return{
         "quiz":quiz_data
     }
+@app.post("/exam-notes")
+def exam_notes(data: VideoRequest):
+    video_id = extract_video_id(data.video_url)
+    transcript = get_transcript(video_id)
+    notes = generate_exam_notes(transcript)
+
+    return {
+        "exam_notes": notes
+    }
+@app.post("/exam-notes/pdf")
+def exam_notes_pdf(data: VideoRequest):
+
+    video_id = extract_video_id(data.video_url)
+
+    transcript = get_transcript(video_id)
+
+    notes = generate_exam_notes(transcript)
+
+    # Create a temporary PDF file
+    temp_file = tempfile.NamedTemporaryFile(
+        delete=False,
+        suffix=".pdf"
+    )
+
+    temp_file.close()
+
+    generate_exam_notes_pdf(
+        notes,
+        temp_file.name
+    )
+
+    return FileResponse(
+        temp_file.name,
+        media_type="application/pdf",
+        filename="exam_notes.pdf"
+    )

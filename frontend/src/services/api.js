@@ -23,6 +23,35 @@ export async function fetchQuiz(videoUrl) {
   return resp.data.quiz;
 }
 
+// Generate exam-oriented study notes and return the PDF file.
+export async function downloadExamNotesPDF(videoUrl) {
+  const resp = await axios.post(
+    `${API_BASE}/exam-notes/pdf`,
+    { video_url: videoUrl },
+    {
+      responseType: "blob",
+    }
+  );
+
+  const pdfBlob = new Blob([resp.data], {
+    type: "application/pdf",
+  });
+
+  const url = window.URL.createObjectURL(pdfBlob);
+
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "exam_notes.pdf";
+
+  document.body.appendChild(link);
+  link.click();
+
+  link.remove();
+
+  window.URL.revokeObjectURL(url);
+}
+
 // Fetch transcript from backend. Backend currently returns a default transcript.
 export async function fetchTranscript() {
   const resp = await axios.post(`${API_BASE}/transcript`,{video_url: videoUrl});
@@ -34,4 +63,7 @@ export default {
   fetchFlashcards,
   fetchQuiz,
   fetchTranscript,
+  downloadExamNotesPDF
 };
+
+
