@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Centralized API client for communicating with the backend server.
 // Change API_BASE if your backend runs elsewhere.
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "/api";
 
 // Send the YouTube URL to backend /summary endpoint and return summary text.
 export async function fetchSummary(videoUrl) {

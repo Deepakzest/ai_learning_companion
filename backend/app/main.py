@@ -1,9 +1,4 @@
 from pydantic import BaseModel
-
-
-class VideoRequest(BaseModel):
-    video_url: str
-
 from fastapi import FastAPI
 from app.services.youtube_services import extract_video_id
 from app.services.transcript_services import get_transcript
@@ -11,17 +6,18 @@ from app.services.summary_services import generate_summary
 from app.services.flashcard_services import generate_flashcards
 from app.services.quiz_services import generate_quiz
 from app.services.examnotes_services import generate_exam_notes
-import os
-import tempfile
-
 from fastapi.responses import FileResponse
 from app.services.pdf_service import generate_exam_notes_pdf
-app = FastAPI()
 from fastapi.middleware.cors import CORSMiddleware #connects backend and fronted//
+import os
+import tempfile
+class VideoRequest(BaseModel):
+    video_url: str
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173","https://www.youtube.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
